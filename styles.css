@@ -54,12 +54,12 @@ body {
     cursor: pointer;
 }
 
-.rightB {
-    border-right: 1px solid black;
+.leftB {
+    border-left: 1px solid black;
 }
 
-.bottomB {
-    border-bottom: 1px solid black;
+.topB {
+    border-top: 1px solid black;
 }
 
 /* Controls */
@@ -179,7 +179,8 @@ body {
     height: 25%;
     display: flex;
     justify-content: right;
-    font-size: 1rem;
+    font-size: 0.85rem;
     color: black !important;
     overflow: hidden;
+    margin-right: 5%;
 }
