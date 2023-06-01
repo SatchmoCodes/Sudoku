@@ -1,0 +1,185 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    text-align: center;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.left {
+    display: flex;
+    justify-content: right;
+    flex-basis: 50%;
+    margin-right: 5rem;
+}
+
+.squareBody {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    width: 36rem;
+    border: 1px solid black;
+}
+
+.squareBody .squareSection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* flex-basis: 11.1111%; */
+    /* border: 1px solid black; */
+    width: 36rem;
+    height: 4rem;
+}
+
+.square {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 11.1111%;
+    border: 1px solid rgb(186, 182, 182);
+    height: 4rem;
+    width: 4rem;
+    font-size: 2rem;
+}
+
+.square:hover {
+    background-color: rgba(189, 187, 187, 0.5);
+    cursor: pointer;
+}
+
+.rightB {
+    border-right: 1px solid black;
+}
+
+.bottomB {
+    border-bottom: 1px solid black;
+}
+
+/* Controls */
+
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    flex-basis: 50%;
+    margin-left: 5rem;
+}
+
+.buttonSection {
+    display: flex;
+    margin-left: 4rem;
+}
+
+.buttonSection div {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.buttonSection i {
+    border: 1px solid black;
+    border-radius: 50%;
+    padding: 1rem;
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+    cursor: pointer
+}
+
+.buttonSection i:active {
+    background-color: lightgray;
+}
+
+.buttonSection h2 {
+    margin-top: 0.5rem;
+}
+
+.numPad {
+    display: flex;
+    flex-basis: 33.3333%;
+    flex-wrap: wrap;
+    width: 22rem;
+    height: 22rem;
+    margin-top: 2rem;
+}
+
+.numPad div {
+    flex-basis: 25%;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    border: 1px solid black;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.numPad h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 6rem;
+    height: 6rem;
+    margin: auto;
+
+}
+
+.numPad div:active {
+    background-color: lightgray;
+}
+
+/* Newboard */
+
+.newButton {
+    display: flex;
+    justify-content: left;
+    margin-left: 7.2rem;
+}
+
+.newButton button {
+    padding: 1.5rem;
+    cursor: pointer;
+}
+
+/* General Classes */
+
+.correct {
+    color: rgba(13, 13, 176, 0.75);
+}
+
+.incorrect {
+    color: red;
+}
+
+.active {
+    background-color: lightgray;
+}
+
+.selected {
+    background-color: gray !important;
+}
+
+.default {
+    background-color: white;
+}
+
+.grayed {
+    background-color: lightgray;
+}
+
+.noteBox {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: right;
+    font-size: 1rem;
+    color: black !important;
+    overflow: hidden;
+}
