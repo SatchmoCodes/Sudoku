@@ -35,6 +35,8 @@ function newBoard() {
         let x = 1
         let y = 9
         let z = 0 //# of times incremented
+        let n = 1 //tracks quadrant. +1 every 3 iterations of i
+        let r = 0 //tracks going into new row of quadrants
     
         squareSection.forEach(sec => {
             for (let i = 0; i < 9; i++) {
@@ -49,18 +51,22 @@ function newBoard() {
                 square.dataset.y = y
                 square.dataset.active = 'false'
                 square.dataset.answer = data[0].newboard.grids[0].solution[z][i]
-                if ((i + 1) % 3 == 0) {
-                    square.classList.add('rightB')
+                if (i % 3 == 0 && i != 0) {
+                    square.classList.add('leftB')
+                    n = (i / 3) + 1
                 }
-                if ((z + 1) % 3 == 0) {
-                    square.classList.add('bottomB')
+                if (z % 3 == 0 && z != 0) {
+                    square.classList.add('topB')
+                    r = z
                 }
+                square.dataset.quadrant = n + r
                 x++
                 sec.append(square)
             }
             i = 0
             y--
             x = 1
+            n = 1
             z++
     
         })
@@ -96,6 +102,7 @@ function newBoard() {
                     else {
                         let x = parseInt(event.target.dataset.x)
                         let y = parseInt(event.target.dataset.y)
+                        let quadrant = parseInt(event.target.dataset.quadrant)
                         squareArr.forEach(s => {
                             s.classList.add('default')
                             s.classList.remove('grayed')
@@ -106,6 +113,10 @@ function newBoard() {
                                 s.classList.add('grayed')
                             }
                             if (s.dataset.y == y) {
+                                s.classList.remove('default')
+                                s.classList.add('grayed')
+                            }
+                            if (s.dataset.quadrant == quadrant) {
                                 s.classList.remove('default')
                                 s.classList.add('grayed')
                             }
@@ -144,7 +155,14 @@ function newBoard() {
                 if (!event.target.classList.contains('num')) {
                     for (let i = 0; i < squareArr.length; i++) {
                         if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true') {
+                            let doubleCheck = squareArr[i].innerText
                             let number = parseInt(event.target.dataset.n)
+                            console.log(squareArr[i])
+                            console.log(squareArr[i].firstChild)
+                            if (parseInt(doubleCheck) == number && !squareArr[i].querySelector('.noteBox')) {
+                                console.log('hahaah')
+                                return
+                            }
                             if (num.classList.contains('note')) {
                                 noteTake(i, number)
                             }
@@ -180,7 +198,12 @@ function newBoard() {
                     counter.innerText = x
                     if (x >= 3) {
                         alert('You Lost')
-                        newBoard()
+                        setTimeout(() => {
+                            newBoard()
+                        }, 3000)
+                        squareArr.forEach(sq => {
+                            sq.innerText = sq.dataset.answer
+                        })
                     }
                 }
                 else {
@@ -216,8 +239,9 @@ function newBoard() {
             })
     
             function noteTake(i, number) {
-                console.log('hi')
+                console.log('running')
                 if (!squareArr[i].firstChild) {
+                    console.log('no child')
                     let note = document.createElement('div')
                     note.classList.add('noteBox')
                     note.innerText = number
@@ -227,12 +251,20 @@ function newBoard() {
                     let text = squareArr[i].firstChild.innerText.toString()
                     for (let j = 0; j < text.length; j++) {
                         if (text[j] == number.toString()) {
+                            console.log('equal')
                             let newText = text.replace(`${text[j]}`, '')
                             squareArr[i].firstChild.innerText = newText
                             return
                         }
                     }
-                    squareArr[i].firstChild.innerText += number
+                    text += number
+                    let nArr = [...text]
+                    nArr.sort((a, b) => a - b)
+                    let newText = ''
+                    nArr.forEach(n => {
+                        newText += n
+                    })
+                    squareArr[i].firstChild.innerText = newText
                 }
                
             }
