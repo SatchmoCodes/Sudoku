@@ -55,6 +55,7 @@ body {
     font-size: 2rem;
     width: 100%;
     height: 100%;
+    z-index: 2;
 }
 
 .noteBox {
@@ -68,6 +69,7 @@ body {
     color: black !important;
     overflow: hidden;
     margin-right: 5%;
+    z-index: 1;
 }
 
 .square:hover {
@@ -235,13 +237,20 @@ body {
    }
 
    .squareBody {
-    width: 90vw;
-    height: 90vw;
+    width: calc(5rem + 80vw);
+    height: calc(5rem + 80vw);
     margin-bottom: 2%;
    }
 
    .squareSection {
     height: auto;
+   }
+
+   .noteBox {
+        height: 100%;
+        max-width: 100%;
+        top: 0;
+        display: block;
    }
 
    .numPad {
