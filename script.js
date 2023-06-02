@@ -211,16 +211,16 @@ function newBoard() {
                     if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true' || numbers[index].classList.contains('brush')) {
                         let doubleCheck = squareArr[i].innerText
                         console.log(squareArr[i])
+                        if (numbers[index].classList.contains('brush')) {
+                            brushNumber(number)
+                            return
+                        }
                         if (parseInt(doubleCheck) == number && !squareArr[i].querySelector('.noteBox')) {
                             console.log('hahaah')
                             return
                         }
                         if (numbers[index].classList.contains('note')) {
                             noteTake(i, number)
-                            return
-                        }
-                        if (numbers[index].classList.contains('brush')) {
-                            brushNumber(number)
                             return
                         }
                         else {
@@ -334,7 +334,7 @@ function newBoard() {
                     for (let p = 0; p < 9; p++) {
                         let h2 = document.createElement('h2')
                         h2.classList.add('noteChild')
-                        h2.innerText = ''
+                        h2.innerText = ''   
                         note.append(h2)
                     }
                     squareArr[i].append(note)
