@@ -21,9 +21,10 @@ body {
 .left {
     display: flex;
     justify-content: right;
+    align-items: center;
     flex-basis: 50%;
     margin-left: 20%;
-    /* margin-right: 5%; */
+    margin-right: 2%;
 }
 
 .squareBody {
@@ -32,7 +33,7 @@ body {
     justify-content: right;
     width: clamp(10vw + 10rem, 20vw + 10rem, 40rem);
     height: clamp(10vw + 10rem, 20vw + 10rem, 40rem);
-    border: 1px solid black;
+    border: 3px solid black;
 }
 
 .squareBody .squareSection {
@@ -45,6 +46,7 @@ body {
 }
 
 .square {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,17 +57,30 @@ body {
     height: 100%;
 }
 
+.noteBox {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: right;
+    font-size: 0.85rem;
+    color: black !important;
+    overflow: hidden;
+    margin-right: 5%;
+}
+
 .square:hover {
     background-color: rgba(189, 187, 187, 0.5);
     cursor: pointer;
 }
 
 .leftB {
-    border-left: 1px solid black;
+    border-left: 3px solid black;
 }
 
 .topB {
-    border-top: 1px solid black;
+    border-top: 3px solid black;
 }
 
 /* Controls */
@@ -76,6 +91,7 @@ body {
     align-items: center;
     flex-basis: 50%;
     margin-right: 20%;
+    margin-left: 2%;
     /* margin-left: 5%; */
 }
 
@@ -196,21 +212,74 @@ body {
     background-color: black;
 }
 
-.noteBox {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 25%;
-    display: flex;
-    justify-content: right;
-    font-size: 0.85rem;
-    color: black !important;
-    overflow: hidden;
-    margin-right: 5%;
+.darkGrayed {
+    background-color: rgb(50, 50, 50);
+    opacity: 80%;
 }
 
+
+
 @media screen and (max-width: 1000px) {
-    body {
-        background-color: red;
-    }
+   
+   .wrapper {
+        display: block;
+   }
+
+   .left {
+    justify-content: center;
+    margin: auto;
+   }
+
+   .right {
+    margin: auto;
+   }
+
+   .squareBody {
+    width: 90vw;
+    height: 90vw;
+    margin-bottom: 2%;
+   }
+
+   .squareSection {
+    height: auto;
+   }
+
+   .numPad {
+    display: flex;
+    gap: 1px;
+    order: 1;
+   }
+
+   .buttonSection {
+    order: 2;
+    flex-basis: 5%;
+    margin-bottom: 1%;
+   }
+
+   .buttonSection h2 {
+    margin: 0;
+   }
+
+   .numPad .num {
+    flex-basis: 11.1111%;
+    width: calc(1.1rem + 6vw);
+    height: calc(1.1rem + 6vw);
+    min-width: 1rem;
+    min-height: 1rem;
+   }
+
+   .newButton {
+    order: 3;
+   }
+
+   h1 {
+    margin-top: 0;
+    margin-bottom: 1%;
+   }
+
+   .topMenu h2 {
+    margin-top: 2%;
+    margin-bottom: 2%;
+   }
+    
 }
