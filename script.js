@@ -146,20 +146,11 @@ function newBoard() {
                 } 
         }))
     
-        // document.body.onclick = function() {
-        //     console.log('body')
-        //     squareArr.forEach(sq => {
-        //         sq.classList.remove('active')
-        //         sq.classList.remove('selected')
-        //         sq.dataset.active = 'false'
-        //         sq.classList.remove('grayed')
-        //         sq.classList.add('default')
-        //     })
-        // }
+       
 
         //de-select square if you click outside of it
         window.onclick = function (event) {
-            let myBox = document.querySelector('.squareSection');
+            let myBox = document.querySelector('.squareBody');
      
             if (event.target.contains(myBox) && event.target !== myBox) {
                 console.log('You clicked outside the box!');
@@ -211,7 +202,7 @@ function newBoard() {
 
             function numberInput(number, index) {
                 for (let i = 0; i < squareArr.length; i++) {
-                    if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true') {
+                    if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true' || numbers[index].classList.contains('brush')) {
                         let doubleCheck = squareArr[i].innerText
                         console.log(squareArr[i])
                         console.log(squareArr[i].firstChild)
@@ -277,11 +268,30 @@ function newBoard() {
 
             function brushNumber(num) {
                 console.log('hi')
+                let brushArr = []
                 squareArr.forEach(sq => {
                     sq.classList.remove('brushed')
+                    sq.classList.remove('darkGrayed')
                     if (sq.innerText == num) {
                         sq.classList.add('brushed')
+                        brushArr.push(sq)
                     }
+                })
+                brushArr.forEach(e => {
+                    squareArr.forEach(sq => {
+                        console.log('hola')
+                        if (e != sq) {
+                            if (e.dataset.x == sq.dataset.x) {
+                                sq.classList.add('darkGrayed')
+                            }
+                            if (e.dataset.y == sq.dataset.y) {
+                                sq.classList.add('darkGrayed')
+                            }
+                            if (e.dataset.quadrant == sq.dataset.quadrant) {
+                                sq.classList.add('darkGrayed')
+                            }
+                        }
+                    })
                 })
             }   
     
@@ -310,6 +320,7 @@ function newBoard() {
     
             function noteTake(i, number) {
                 console.log('running')
+                console.log(squareArr[i].firstChild)
                 if (!squareArr[i].firstChild) {
                     console.log('no child')
                     let note = document.createElement('div')
@@ -392,6 +403,7 @@ function newBoard() {
                         brushButton.classList.remove('active')
                         squareArr.forEach(sq => {
                             sq.classList.remove('brushed')
+                            sq.classList.remove('darkGrayed')
                         })
                         numbers.forEach(num => {
                             num.classList.remove('brush')
