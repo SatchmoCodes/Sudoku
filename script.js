@@ -110,8 +110,8 @@ function newBoard() {
         document.querySelectorAll(".square").forEach(sq =>
             sq.addEventListener("click", event => {
                 let realEvent = event.target
-                if (event.target.parentElement.classList.contains('square')) {
-                    realEvent = event.target.parentElement
+                if (event.target.parentElement.parentElement.classList.contains('square')) {
+                    realEvent = event.target.parentElement.parentElement
                     console.log(realEvent)
                 }
                 console.log(realEvent)
@@ -277,7 +277,7 @@ function newBoard() {
                 squareArr.forEach(sq => {
                     sq.classList.remove('brushed')
                     sq.classList.remove('darkGrayed')
-                    if (sq.innerText == num) {
+                    if (sq.innerText == num && sq.dataset.answer == num && !sq.querySelector('.noteBox')) {
                         sq.classList.add('brushed')
                         brushArr.push(sq)
                     }
@@ -330,27 +330,47 @@ function newBoard() {
                     console.log('no child')
                     let note = document.createElement('div')
                     note.classList.add('noteBox')
-                    note.innerText = number
+                    // note.innerText = number
+                    for (let p = 0; p < 9; p++) {
+                        let h2 = document.createElement('h2')
+                        h2.classList.add('noteChild')
+                        h2.innerText = ''
+                        note.append(h2)
+                    }
                     squareArr[i].append(note)
+                    console.log(squareArr[i].querySelectorAll('.noteChild')[number])
+                    squareArr[i].querySelectorAll('.noteChild')[number - 1].innerText = number
+                    
                 }
                 else {
-                    let text = squareArr[i].firstChild.innerText.toString()
-                    for (let j = 0; j < text.length; j++) {
-                        if (text[j] == number.toString()) {
+                    let children = squareArr[i].querySelectorAll('.noteChild')
+                    for (let u = 0; u < children.length; u++) {
+                        if (children[u].innerText == number && number != '') {
                             console.log('equal')
-                            let newText = text.replace(`${text[j]}`, '')
-                            squareArr[i].firstChild.innerText = newText
+                            children[u].innerText = ''
                             return
                         }
                     }
-                    text += number
-                    let nArr = [...text]
-                    nArr.sort((a, b) => a - b)
-                    let newText = ''
-                    nArr.forEach(n => {
-                        newText += n
-                    })
-                    squareArr[i].firstChild.innerText = newText
+                    // let text = squareArr[i].firstChild.innerText.toString()
+                    // for (let j = 0; j < text.length; j++) {
+                    //     if (text[j] == number.toString()) {
+                    //         console.log('equal')
+                    //         let newText = text.replace(`${text[j]}`, '')
+                    //         squareArr[i].firstChild.innerText = newText
+                    //         return
+                    //     }
+                    // }
+
+                    // text += number
+                    // let nArr = [...text]
+                    // nArr.sort((a, b) => a - b)
+                    // let newText = ''
+                    // nArr.forEach(n => {
+                    //     newText += n
+                    // })
+                    // squareArr[i].firstChild.innerText = newText
+                    console.log(squareArr[i].querySelectorAll('.noteChild')[number])
+                    squareArr[i].querySelectorAll('.noteChild')[number - 1].innerText = number
                 }
                
             }
