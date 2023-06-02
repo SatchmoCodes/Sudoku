@@ -11,6 +11,25 @@ function newBoard() {
     }).then(function (data) {
         // Log the data to the console
         // You would do something with both sets of data here
+
+        // var start = new Date();
+        // let topMenu = document.querySelector('.topMenu')
+        // console.log(topMenu.firstChild)
+        // topMenu.removeChild(topMenu.firstChild)
+        // let timer = document.createElement('h2')
+        // topMenu.insertBefore(timer, topMenu.firstChild)
+        // setInterval(function(){
+        // var current = new Date();
+        // var minutes = Math.floor((current.getTime()-start.getTime())/1000/60);
+        // var seconds = Math.floor((current.getTime()-start.getTime())/1000%60);
+        // if (seconds < 10) {
+        // seconds = "0" + seconds;
+        // }
+
+        // document.querySelectorAll(".topMenu h2")[0].innerText = minutes + ":" + seconds;
+        // },100)
+        // clearInterval()
+
         let left = document.querySelector('.left')
         let counter = document.querySelector('.counter')
         counter.innerText = '0'
@@ -128,16 +147,40 @@ function newBoard() {
         }))
     
         // document.body.onclick = function() {
+        //     console.log('body')
         //     squareArr.forEach(sq => {
-    
+        //         sq.classList.remove('active')
+        //         sq.classList.remove('selected')
+        //         sq.dataset.active = 'false'
+        //         sq.classList.remove('grayed')
+        //         sq.classList.add('default')
         //     })
         // }
+
+        window.onclick = function (event) {
+            let myBox = document.querySelector('.squareSection');
+     
+            if (event.target.contains(myBox) && event.target !== myBox) {
+                console.log('You clicked outside the box!');
+                squareArr.forEach(sq => {
+                            sq.classList.remove('active')
+                            sq.classList.remove('selected')
+                            sq.dataset.active = 'false'
+                            sq.classList.remove('grayed')
+                            sq.classList.add('default')
+                        })
+                
+            } else {
+                console.log('You clicked inside the box!');
+            }
+     }
     
         //adding number to cells
-        let numContainer = document.querySelector('.numContainer')
-        numContainer.removeChild(numContainer.firstChild)
-        let numPad = document.createElement('div')
-        numPad.classList.add('numPad')
+        let numPad = document.querySelector('.numPad')
+        numPad.remove()
+        let buttonSection = document.querySelector('.buttonSection')
+        let pad = document.createElement('div')
+        pad.classList.add('numPad')
         for (let k = 0; k < 9; k++) {
             let div = document.createElement('div')
             let h1 = document.createElement('h1')
@@ -145,18 +188,22 @@ function newBoard() {
             h1.dataset.n = k + 1
             h1.innerText = k + 1
             div.append(h1)
-            numPad.append(div)
+            pad.append(div)
         }
-        numContainer.append(numPad)
+        buttonSection.parentNode.insertBefore(pad, buttonSection.nextSibling)
         
         let numbers = document.querySelectorAll('.num')
         numbers.forEach(num =>
             num.addEventListener('click', event => {
+                let number = parseInt(event.target.dataset.n)
+                if (num.classList.contains('brush')) {
+                    brushNumber(number)
+                    return
+                }
                 if (!event.target.classList.contains('num')) {
                     for (let i = 0; i < squareArr.length; i++) {
                         if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true') {
                             let doubleCheck = squareArr[i].innerText
-                            let number = parseInt(event.target.dataset.n)
                             console.log(squareArr[i])
                             console.log(squareArr[i].firstChild)
                             if (parseInt(doubleCheck) == number && !squareArr[i].querySelector('.noteBox')) {
@@ -196,15 +243,15 @@ function newBoard() {
                     let x = parseInt(counter.innerText)
                     x++
                     counter.innerText = x
-                    if (x >= 3) {
-                        alert('You Lost')
-                        setTimeout(() => {
-                            newBoard()
-                        }, 3000)
-                        squareArr.forEach(sq => {
-                            sq.innerText = sq.dataset.answer
-                        })
-                    }
+                    // if (x >= 3) {
+                    //     alert('You Lost')
+                    //     setTimeout(() => {
+                    //         newBoard()
+                    //     }, 3000)
+                    //     squareArr.forEach(sq => {
+                    //         sq.innerText = sq.dataset.answer
+                    //     })
+                    // }
                 }
                 else {
                     if (squareArr[i].classList.contains('incorrect')) {
@@ -214,6 +261,16 @@ function newBoard() {
                     squareArr[i].innerText = num
                 }
             }
+
+            function brushNumber(num) {
+                console.log('hi')
+                squareArr.forEach(sq => {
+                    sq.classList.remove('brushed')
+                    if (sq.innerText == num) {
+                        sq.classList.add('brushed')
+                    }
+                })
+            }   
     
             //erase button
             let eraseHolder = document.querySelector('.eraseHolder')
@@ -284,19 +341,57 @@ function newBoard() {
             noteHolder.append(noteText)
             let noteButton = document.querySelector('.note')
             noteButton.addEventListener('click', () => {
-                console.log('hi')
-                if (noteButton.classList.contains('active')) {
-                    noteButton.classList.remove('active')
-                    numbers.forEach(num => {
-                        num.classList.remove('note')
-                    })
+                if (!brushButton.classList.contains('active')) {
+                    if (noteButton.classList.contains('active')) {
+                        noteButton.classList.remove('active')
+                        numbers.forEach(num => {
+                            num.classList.remove('note')
+                        })
+                    }
+                    else {
+                        noteButton.classList.add('active')
+                        numbers.forEach(num => {
+                            num.classList.add('note')
+                        })
+                    }
                 }
-                else {
-                    noteButton.classList.add('active')
-                    numbers.forEach(num => {
-                        num.classList.add('note')
-                    })
+                
+            })
+
+            //brush
+            let brushHolder = document.querySelector('.brushHolder')
+
+            //reset event listener
+            while (brushHolder.firstChild) {
+                brushHolder.removeChild(brushHolder.firstChild)
+            }
+            let brushI = document.createElement('i')
+            let brushText = document.createElement('h2')
+            brushI.classList.add('fa', 'fa-paint-brush', 'brush')
+            brushText.innerText = 'Brush'
+            brushHolder.append(brushI)
+            brushHolder.append(brushText)
+
+            let brushButton = document.querySelector('.brush')
+            brushButton.addEventListener('click', () => {
+                if (!noteButton.classList.contains('active')) {
+                    if (brushButton.classList.contains('active')) {
+                        brushButton.classList.remove('active')
+                        squareArr.forEach(sq => {
+                            sq.classList.remove('brushed')
+                        })
+                        numbers.forEach(num => {
+                            num.classList.remove('brush')
+                        })
+                    }
+                    else {
+                        brushButton.classList.add('active')
+                        numbers.forEach(num => {
+                            num.classList.add('brush')
+                        })
+                    }
                 }
+                
             })
     
     
