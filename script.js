@@ -157,6 +157,7 @@ function newBoard() {
         //     })
         // }
 
+        //de-select square if you click outside of it
         window.onclick = function (event) {
             let myBox = document.querySelector('.squareSection');
      
@@ -193,33 +194,45 @@ function newBoard() {
         buttonSection.parentNode.insertBefore(pad, buttonSection.nextSibling)
         
         let numbers = document.querySelectorAll('.num')
-        numbers.forEach(num =>
+        numbers.forEach((num, index)=>
             num.addEventListener('click', event => {
                 let number = parseInt(event.target.dataset.n)
-                if (num.classList.contains('brush')) {
-                    brushNumber(number)
-                    return
-                }
                 if (!event.target.classList.contains('num')) {
-                    for (let i = 0; i < squareArr.length; i++) {
-                        if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true') {
-                            let doubleCheck = squareArr[i].innerText
-                            console.log(squareArr[i])
-                            console.log(squareArr[i].firstChild)
-                            if (parseInt(doubleCheck) == number && !squareArr[i].querySelector('.noteBox')) {
-                                console.log('hahaah')
-                                return
-                            }
-                            if (num.classList.contains('note')) {
-                                noteTake(i, number)
-                            }
-                            else {
-                                numberCheck(i, number)
-                            } 
-                        }
-                    }
+                    numberInput(number, index)
                 }
             }))
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key >= 1 && event.key <= 9) {
+                    numberInput(event.key, (event.key - 1))
+                }
+            })
+
+
+            function numberInput(number, index) {
+                for (let i = 0; i < squareArr.length; i++) {
+                    if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true') {
+                        let doubleCheck = squareArr[i].innerText
+                        console.log(squareArr[i])
+                        console.log(squareArr[i].firstChild)
+                        if (parseInt(doubleCheck) == number && !squareArr[i].querySelector('.noteBox')) {
+                            console.log('hahaah')
+                            return
+                        }
+                        if (numbers[index].classList.contains('note')) {
+                            noteTake(i, number)
+                            return
+                        }
+                        if (numbers[index].classList.contains('brush')) {
+                            brushNumber(number)
+                            return
+                        }
+                        else {
+                            numberCheck(i, number)
+                        } 
+                    }
+                }
+            }
     
             function numberCheck(i, num) {
                 let rowArr = []
