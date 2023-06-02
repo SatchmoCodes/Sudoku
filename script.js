@@ -109,19 +109,25 @@ function newBoard() {
         //activating cells
         document.querySelectorAll(".square").forEach(sq =>
             sq.addEventListener("click", event => {
-                if (!event.target.classList.contains('noteBox')) {
-                    if (event.target.dataset.active == 'true') {
+                let realEvent = event.target
+                if (event.target.parentElement.classList.contains('square')) {
+                    realEvent = event.target.parentElement
+                    console.log(realEvent)
+                }
+                console.log(realEvent)
+
+                    if (realEvent.dataset.active == 'true') {
                         squareArr.forEach(s => {
                             s.classList.add('default')
                             s.classList.remove('grayed')
                             s.classList.remove('selected')
                         })
-                        event.target.dataset.active = 'false'
+                        realEvent.dataset.active = 'false'
                     }
                     else {
-                        let x = parseInt(event.target.dataset.x)
-                        let y = parseInt(event.target.dataset.y)
-                        let quadrant = parseInt(event.target.dataset.quadrant)
+                        let x = parseInt(realEvent.dataset.x)
+                        let y = parseInt(realEvent.dataset.y)
+                        let quadrant = parseInt(realEvent.dataset.quadrant)
                         squareArr.forEach(s => {
                             s.classList.add('default')
                             s.classList.remove('grayed')
@@ -140,10 +146,10 @@ function newBoard() {
                                 s.classList.add('grayed')
                             }
                         })
-                        event.target.classList.add('selected')
-                        event.target.dataset.active = 'true'
+                        realEvent.classList.add('selected')
+                        realEvent.dataset.active = 'true'
                     } 
-                } 
+                 
         }))
     
        
@@ -188,9 +194,9 @@ function newBoard() {
         numbers.forEach((num, index)=>
             num.addEventListener('click', event => {
                 let number = parseInt(event.target.dataset.n)
-                if (!event.target.classList.contains('num')) {
+                // if (!event.target.classList.contains('num')) {
                     numberInput(number, index)
-                }
+                // }
             }))
 
             document.addEventListener('keydown', (event) => {
@@ -205,7 +211,6 @@ function newBoard() {
                     if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true' || numbers[index].classList.contains('brush')) {
                         let doubleCheck = squareArr[i].innerText
                         console.log(squareArr[i])
-                        console.log(squareArr[i].firstChild)
                         if (parseInt(doubleCheck) == number && !squareArr[i].querySelector('.noteBox')) {
                             console.log('hahaah')
                             return
