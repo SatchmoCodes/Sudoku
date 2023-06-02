@@ -285,14 +285,17 @@ body {
 
    .numPad .num {
     flex-basis: 11.1111%;
-    width: calc(1.1rem + 6vw);
-    height: calc(1.1rem + 6vw);
+    width: calc(1rem + 6.25vw);
+    height: calc(1rem + 6.25vw);
     min-width: 1rem;
     min-height: 1rem;
    }
 
    .newButton {
     order: 3;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 5%;
    }
 
    h1 {
