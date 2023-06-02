@@ -1,3 +1,10 @@
+:root {
+    --box-width: clamp(10vw + 10rem, 20vw + 10rem, 40rem);
+    --box-height: clamp(10vw + 10rem, 20vw + 10rem, 40rem);
+    --square-width: calc(var(--box-width) / 9);
+    --square-height: calc(var(--box-height) / 9);
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -16,7 +23,7 @@ body {
     justify-content: right;
     flex-basis: 50%;
     margin-left: 20%;
-    margin-right: 5%;
+    /* margin-right: 5%; */
 }
 
 .squareBody {
@@ -33,14 +40,11 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    /* flex-basis: 11.1111%; */
-    /* border: 1px solid black; */
-    width: clamp(10vw + 10rem, 20vw + 10rem, 40rem);
-    /* height: 4rem; */
+    width: 100%;
+    height: 11.1111%;
 }
 
 .square {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -72,7 +76,7 @@ body {
     align-items: center;
     flex-basis: 50%;
     margin-right: 20%;
-    margin-left: 5%;
+    /* margin-left: 5%; */
 }
 
 .buttonSection {
