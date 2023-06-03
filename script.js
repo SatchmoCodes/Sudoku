@@ -292,9 +292,9 @@ function newBoard() {
                             if (e.dataset.y == sq.dataset.y) {
                                 sq.classList.add('darkGrayed')
                             }
-                            if (e.dataset.quadrant == sq.dataset.quadrant) {
-                                sq.classList.add('darkGrayed')
-                            }
+                            // if (e.dataset.quadrant == sq.dataset.quadrant) {
+                            //     sq.classList.add('darkGrayed')
+                            // }
                         }
                     })
                 })
