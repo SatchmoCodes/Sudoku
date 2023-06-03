@@ -142,6 +142,10 @@ body {
     margin-top: 0.5rem;
 }
 
+.note {
+    width: 4.25rem;
+}
+
 /* .numPad {
     display: flex;
     flex-basis: 60%;
