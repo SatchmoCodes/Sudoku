@@ -1,34 +1,46 @@
-function newBoard() {
+let realEvent
+let start = new Date()
+let current
+let clock
+let correctArr = []
+
+function newBoard(difficulty) {
     Promise.all([
-        fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value, solution}}}')
+        // fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value, solution}}}')
         // fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{solution}}}'),
-        // fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value,solution,difficulty},results,message}}')
+        fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value,solution,difficulty},results,message}}')
     ]).then(function (responses) {
         // Get a JSON object from each of the responses
         return Promise.all(responses.map(function (response) {
+            console.log(responses)
             return response.json();
         }));
     }).then(function (data) {
+        console.log(difficulty)
+        if (data[0].newboard.grids[0].difficulty != difficulty) {
+            newBoard(difficulty)
+            return
+        }
+        start = new Date()
         // Log the data to the console
         // You would do something with both sets of data here
+       
+        let topMenu = document.querySelector('.topMenu')
+        console.log(topMenu.firstChild)
+        topMenu.removeChild(topMenu.firstChild)
+        let timer = document.createElement('h2')
+        topMenu.insertBefore(timer, topMenu.firstChild)
+        clock = setInterval(function(){
+        var current = new Date();
+        var minutes = Math.floor((current.getTime()-start.getTime())/1000/60);
+        var seconds = Math.floor((current.getTime()-start.getTime())/1000%60);
+        if (seconds < 10) {
+        seconds = "0" + seconds;
+        }
 
-        // var start = new Date();
-        // let topMenu = document.querySelector('.topMenu')
-        // console.log(topMenu.firstChild)
-        // topMenu.removeChild(topMenu.firstChild)
-        // let timer = document.createElement('h2')
-        // topMenu.insertBefore(timer, topMenu.firstChild)
-        // setInterval(function(){
-        // var current = new Date();
-        // var minutes = Math.floor((current.getTime()-start.getTime())/1000/60);
-        // var seconds = Math.floor((current.getTime()-start.getTime())/1000%60);
-        // if (seconds < 10) {
-        // seconds = "0" + seconds;
-        // }
-
-        // document.querySelectorAll(".topMenu h2")[0].innerText = minutes + ":" + seconds;
-        // },100)
-        // clearInterval()
+        document.querySelectorAll(".topMenu h2")[0].innerText = minutes + ":" + seconds;
+        },100)
+        
 
         let left = document.querySelector('.left')
         let counter = document.querySelector('.counter')
@@ -50,7 +62,7 @@ function newBoard() {
             } 
         })
     
-        console.log(data[0].newboard.grids[0].solution)
+        console.log(data[0].newboard.grids[0])
         let x = 1
         let y = 9
         let z = 0 //# of times incremented
@@ -97,6 +109,9 @@ function newBoard() {
     
         square.forEach(sq => {
             squareArr.push(sq)
+            if (sq.innerText == sq.dataset.answer) {
+                correctArr.push(sq)
+            }
         })
 
         console.log(squareArr)
@@ -104,12 +119,16 @@ function newBoard() {
         note.forEach(n => {
             noteArr.push(n)
         })
-    
+
+        
     
         //activating cells
         document.querySelectorAll(".square").forEach(sq =>
             sq.addEventListener("click", event => {
-                let realEvent = event.target
+                 realEvent = event.target
+                if (brushButton.classList.contains('active')) {
+                    numberInput(parseInt(realEvent.innerText), parseInt(realEvent.innerText - 1))
+                }
                 if (event.target.parentElement.parentElement.classList.contains('square')) {
                     realEvent = event.target.parentElement.parentElement
                     console.log(realEvent)
@@ -207,8 +226,11 @@ function newBoard() {
 
 
             function numberInput(number, index) {
+                console.log(number)
+                console.log('testing')
                 for (let i = 0; i < squareArr.length; i++) {
                     if (squareArr[i].dataset.active == 'true' && squareArr[i].dataset.immutable != 'true' || numbers[index].classList.contains('brush')) {
+                        console.log('hahahahahahah')
                         let doubleCheck = squareArr[i].innerText
                         console.log(squareArr[i])
                         if (numbers[index].classList.contains('brush')) {
@@ -268,6 +290,17 @@ function newBoard() {
                     }
                     squareArr[i].classList.add('correct')
                     squareArr[i].innerText = num
+                    if (!correctArr.includes(squareArr[i])) {
+                        correctArr.push(squareArr[i])
+                    }
+                    if (correctArr.length == 81) {
+                        alert('Congratulations! You won in ' + document.querySelector('.topMenu h2').innerText + '!')
+                        correctArr.length = 0
+                        document.querySelector('.popUp').classList.add('show')
+                        document.querySelector('.popUp').classList.remove('hide')
+                        document.querySelector('.wrapper').classList.add('fade')
+                        clearInterval(clock)
+                    }
                 }
             }
 
@@ -441,6 +474,7 @@ function newBoard() {
                         })
                     }
                 }
+                numberInput(parseInt(realEvent.innerText), parseInt(realEvent.innerText - 1))
                 
             })
     
@@ -451,12 +485,34 @@ function newBoard() {
         console.log(error);
     });
 }
+let startDif = "Medium"
+newBoard(startDif)
 
-newBoard()
+let difOptions = document.querySelectorAll('.dif')
+
+difOptions.forEach(e => {
+    e.addEventListener('click', event => {
+        let difficulty = event.target.dataset.dif
+        document.querySelector('.popUp').classList.add('hide')
+        document.querySelector('.popUp').classList.remove('show')
+        document.querySelector('.wrapper').classList.remove('fade')
+        newBoard(difficulty)
+    })
+})
+
+
 let newButton = document.querySelector('.newBtn')
 
 newButton.addEventListener('click', () => {
-    newBoard()
+    document.querySelector('.popUp').classList.add('show')
+    document.querySelector('.popUp').classList.remove('hide')
+    document.querySelector('.wrapper').classList.add('fade')
+})
+
+document.querySelector('.x').addEventListener('click', () => {
+    document.querySelector('.popUp').classList.add('hide')
+    document.querySelector('.popUp').classList.remove('show')
+    document.querySelector('.wrapper').classList.remove('fade')
 })
 
 
