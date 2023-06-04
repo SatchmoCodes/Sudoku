@@ -22,6 +22,7 @@ function newBoard(difficulty) {
             return
         }
         start = new Date()
+        correctArr.length = 0
         // Log the data to the console
         // You would do something with both sets of data here
        
