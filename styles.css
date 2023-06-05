@@ -373,7 +373,12 @@ body {
 
    .popUp {
     width: 80%;
-    transform: translate(-50%, -300%);
+    transform: translate(-50%, -250%);
+   }
+
+   .popUp .difRow h3 {
+    flex-basis: 25%;
+    padding: 0.5rem;
    }
     
 }
