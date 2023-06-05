@@ -139,21 +139,8 @@ function newBoard(difficulty) {
             z++
         }
        }
-       counter.innerText = 0
-       //set event listeners
-       if (unset == false) {
-        setEventListeners()
-        unset = true
-       }
 
-}).catch(function (error) {
-    // if there's an error, log it
-    console.log(error);
-});
-}
-
-function setEventListeners() {
-    start = new Date()
+       start = new Date()
     correctArr.length = 0
     // Log the data to the console
     // You would do something with both sets of data here
@@ -173,6 +160,27 @@ function setEventListeners() {
 
     document.querySelectorAll(".topMenu h2")[0].innerText = minutes + ":" + seconds;
     },100)
+    
+       counter.innerText = 0
+       square.forEach(sq => {
+        if (sq.innerText == sq.dataset.answer) {
+            correctArr.push(sq)
+        }
+    })
+       //set event listeners
+       if (unset == false) {
+        setEventListeners()
+        unset = true
+       }
+
+}).catch(function (error) {
+    // if there's an error, log it
+    console.log(error);
+});
+}
+
+function setEventListeners() {
+    
 
     let squareArr = []
     let noteArr = []
@@ -181,9 +189,6 @@ function setEventListeners() {
 
     square.forEach(sq => {
         squareArr.push(sq)
-        if (sq.innerText == sq.dataset.answer) {
-            correctArr.push(sq)
-        }
     })
 
     note.forEach(n => {
