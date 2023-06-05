@@ -241,7 +241,13 @@ body {
 .popUp .difRow h3 {
     flex-basis: 33%;
     cursor: pointer;
-    margin-bottom: 5%;
+    padding: 2rem;
+    margin-bottom: 0;
+}
+
+.popUp .difRow h3:hover {
+    color: white;
+    background-color: black;
 }
 
 /* General Classes */
